@@ -43,10 +43,13 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: userState.when(
-        data: (users) => ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) => UserListItem(
-            user: users[index],
+        data: (users) => RefreshIndicator(
+          onRefresh: ref.read(userProvider.notifier).refreshData,
+          child: ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) => UserListItem(
+              user: users[index],
+            ),
           ),
         ),
         error: (e, _) => Center(

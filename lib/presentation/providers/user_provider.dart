@@ -11,8 +11,24 @@ final userRepositoryProvider = Provider<UserRepository>(
 class UserNotifier extends AsyncNotifier<List<User>> {
   @override
   Future<List<User>> build() async {
-    final repo = ref.read(userRepositoryProvider);
-    return repo.fetchUsers();
+    return fetchUsers();
+  }
+
+  Future<List<User>> fetchUsers() async {
+    state = const AsyncLoading();
+    try {
+      final repo = ref.read(userRepositoryProvider);
+      final users = await repo.fetchUsers();
+      state = AsyncData(users);
+      return users;
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      return [];
+    }
+  }
+
+  Future<void> refreshData() async {
+    await fetchUsers();
   }
 }
 
