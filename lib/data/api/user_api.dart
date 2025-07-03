@@ -8,8 +8,6 @@ class UserApi {
   Future<List<User>> fetchUsers() async {
     final response = await http.get(Uri.parse("https://reqres.in/api/users"),
         headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"});
-    print("fetching users..");
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body)["data"];

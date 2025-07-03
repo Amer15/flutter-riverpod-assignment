@@ -48,7 +48,6 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final state = ref.watch(addUserProvider);
-    print(state.isLoading);
 
     return Scaffold(
       appBar: AppBar(
