@@ -6,10 +6,8 @@ import 'package:http/http.dart' as http;
 
 class UserApi {
   Future<List<User>> fetchUsers() async {
-    final response = await http.get(
-      Uri.parse("https://reqres.in/api/users"),
-      headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"},
-    );
+    final response = await http.get(Uri.parse("https://reqres.in/api/users"),
+        headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"});
     print("fetching users..");
     print(response.statusCode);
 
@@ -24,6 +22,7 @@ class UserApi {
   Future<void> createUser(AddUser user) async {
     final response = await http.post(
       Uri.parse("https://reqres.in/api/users"),
+      body: jsonEncode(user),
       headers: {"x-api-key": "reqres-free-v1"},
     );
 

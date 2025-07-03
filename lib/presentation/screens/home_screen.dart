@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_assignment/presentation/providers/user_provider.dart';
+import 'package:flutter_riverpod_assignment/presentation/screens/add_user_screen.dart';
 import 'package:flutter_riverpod_assignment/presentation/widgets/user_list_item.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -9,7 +10,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
-    final userState = ref.read(userProvider);
+    final userState = ref.watch(userProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -20,7 +21,12 @@ class HomeScreen extends ConsumerWidget {
         ),
         actions: [
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddUserScreen(),
+              ),
+            ),
             icon: Icon(
               Icons.add,
               size: size.width * 0.045,
