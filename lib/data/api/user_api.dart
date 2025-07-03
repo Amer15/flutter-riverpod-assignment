@@ -6,20 +6,26 @@ import 'package:http/http.dart' as http;
 
 class UserApi {
   Future<List<User>> fetchUsers() async {
-    final response = await http.get(Uri.parse("https://reqres.in/api/users"),
-        headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"});
+    final response = await http.get(
+      Uri.parse("https://reqres.in/api/users"),
+      headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"},
+    );
+    print("fetching users..");
+    print(response.statusCode);
 
-    if (response.statusCode >= 400) {
-      throw Exception("failed to load users");
-    } else {
-      final List data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final List data = jsonDecode(response.body)["data"];
       return data.map((user) => User.fromJson(user)).toList();
+    } else {
+      throw Exception("failed to load users");
     }
   }
 
   Future<void> createUser(AddUser user) async {
-    final response = await http.post(Uri.parse("https://reqres.in/api/users"),
-        headers: {"x-api-key": "reqres-free-v1"});
+    final response = await http.post(
+      Uri.parse("https://reqres.in/api/users"),
+      headers: {"x-api-key": "reqres-free-v1"},
+    );
 
     if (response.statusCode != 201) {
       throw Exception("failed to load users");
