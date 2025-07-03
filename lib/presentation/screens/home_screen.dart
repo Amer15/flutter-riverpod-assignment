@@ -44,7 +44,9 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: userState.when(
         data: (users) => RefreshIndicator(
-          onRefresh: ref.read(userProvider.notifier).refreshData,
+          onRefresh: () async {
+            ref.invalidate(userProvider);
+          },
           child: ListView.builder(
             itemCount: users.length,
             itemBuilder: (context, index) => UserListItem(
@@ -53,7 +55,21 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
         error: (e, _) => Center(
-          child: Text("error: $e"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(e.toString().replaceFirst('Exception: ', '')),
+              TextButton(
+                onPressed: ref.read(userProvider.notifier).refreshData,
+                child: const Text(
+                  "retry",
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         loading: () => const Center(
           child: CircularProgressIndicator(),

@@ -23,7 +23,7 @@ class UserNotifier extends AsyncNotifier<List<User>> {
       return users;
     } catch (e, st) {
       state = AsyncError(e, st);
-      return [];
+      rethrow;
     }
   }
 

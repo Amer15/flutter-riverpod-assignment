@@ -10,8 +10,18 @@ class UserApi {
         headers: {"x-api-key": "reqres-free-v1", "Accept": "application/json"});
 
     if (response.statusCode == 200) {
-      final List data = jsonDecode(response.body)["data"];
-      return data.map((user) => User.fromJson(user)).toList();
+      try {
+      final body = jsonDecode(response.body);
+
+      if (body is Map && body["data"] is List) {
+        final List data = body["data"];
+        return data.map((user) => User.fromJson(user)).toList();
+      } else {
+        throw Exception("Oops! something went wrong, failed to load users");
+      }
+    } catch (e) {
+      throw Exception("Oops! something went wrong, failed to load users");
+    }
     } else {
       throw Exception("failed to load users");
     }
